@@ -52,56 +52,83 @@ exports.create = async (req, res) => {
     city: req.body.location.city ? null : '',
     state: req.body.location.state ? null : '',
     postcode: req.body.location.postcode ? null : '',
-    country: req.body.location.country 
+    country: req.body.location.country
   }
 
   const md5 = cryptoService().getMD5Hash(req.body.login.password)
   const sha1 = cryptoService().getSHA1Hash(req.body.login.password)
   const sha256 = cryptoService().getSHA256Hash(req.body.login.password)
+  const base64 = cryptoService().getBase64(req.body.login.password)
 
   const credentials = {
     username: req.body.login.username,
     password: req.body.login.password,
     md5: md5,
+    base64: base64,
     sha1: sha1,
     sha256: sha256
   }
 
-  await Credentials.create(credentials)
-        .then()
-        .catch(err => {
-          console.log(err);
-          res.status(500).send({
-            message: err.message || 'Credentials cannot be accepted!'
-        })
-  
+  try {
+    console.log('Creating Credentials')
+    console.log(credentials)
+    // Create Credentials and Return ID
+    await Credentials.create(credentials)
+      .then(data => {
+        user.cred_id = data.id;
+        return user.save();
+      })
 
-  // Save User in the database
-  await User.create(user)
-    .then(data => {
-      res.send(data);
+    console.log('Creating Location')
+    console.log(location)
+    // Create Location and Return ID
+    await Location.create(location)
+      .then(data => {
+        user.location_id = data.id;
+        return user.save();
+      })
+
+    console.log('Creating Users')
+    console.log(user)
+
+    const userID = '';
+    // Save User in the database
+    await User.create(user)
+      .then(data => {
+        userID = data.id;
+        console.log('User Created with ID :: ', data.id);
+      })
+
+    res.status(200).send({
+      message: 'User Created Successfully',
+      userId: userID
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the User."
-      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the User."
     });
+  }
 };
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+  var condition = title ? {
+    title: {
+      [Op.like]: `%${title}%`
+    }
+  } : null;
 
-  User.findAll({ where: condition })
+  User.findAll({
+      where: condition
+    })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
+        message: err.message || "Some error occurred while retrieving users."
       });
     });
 };
@@ -132,8 +159,10 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   User.update(req.body, {
-    where: { id: id }
-  })
+      where: {
+        id: id
+      }
+    })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -157,8 +186,10 @@ exports.delete = (req, res) => {
   const id = req.params.id;
 
   User.destroy({
-    where: { id: id }
-  })
+      where: {
+        id: id
+      }
+    })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -180,30 +211,34 @@ exports.delete = (req, res) => {
 // Delete all Users from the database.
 exports.deleteAll = (req, res) => {
   User.destroy({
-    where: {},
-    truncate: false
-  })
+      where: {},
+      truncate: false
+    })
     .then(nums => {
-      res.send({ message: `${nums} Users were deleted successfully!` });
+      res.send({
+        message: `${nums} Users were deleted successfully!`
+      });
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all users."
+        message: err.message || "Some error occurred while removing all users."
       });
     });
 };
 
 // find all published User
 exports.findAllPublished = (req, res) => {
-  User.findAll({ where: { published: true } })
+  User.findAll({
+      where: {
+        published: true
+      }
+    })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
+        message: err.message || "Some error occurred while retrieving users."
       });
     });
 };

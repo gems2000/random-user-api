@@ -1,6 +1,7 @@
 var md5 = require('md5');
 var sha1 = require('js-sha1');
 var sha256 = require('js-sha256');
+var base64js = require('base64-js')
 
 
 const cryptoService = () => {
@@ -19,10 +20,16 @@ const cryptoService = () => {
         return hash;
     };
 
+    const getBase64 = (password) => {
+        const b64hash = base64js.fromByteArray(password)
+        return b64hash;
+    }
+
     return {
         getMD5Hash,
         getSHA1Hash,
-        getSHA256Hash
+        getSHA256Hash,
+        getBase64
     }
 }
 
