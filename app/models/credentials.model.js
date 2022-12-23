@@ -1,8 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const Credentials = sequelize.define(
     "credentials", {
-      uuid: {
-        type: Sequelize.STRING
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        primaryKey: true,
+        allowNull: false,
       },
       username: {
         type: Sequelize.STRING
@@ -21,6 +24,16 @@ module.exports = (sequelize, Sequelize) => {
       },
       sha256: {
         type: Sequelize.STRING
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW')
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW')
       }
     });
 

@@ -1,23 +1,40 @@
 module.exports = (sequelize, Sequelize) => {
   const Location = sequelize.define(
     "location", {
+      id: {
+        type: Sequelize.BIGINT,
+        unique: true,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       street_number: {
         type: Sequelize.INTEGER
       },
       street_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       country: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       postcode: {
-        type: Sequelize.BIGINT
+        type: Sequelize.STRING(7),
+        allowNull: true,
+        defaultValue: null,
       }
     });
 
