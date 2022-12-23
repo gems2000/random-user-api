@@ -1,10 +1,11 @@
 {
   "name": "random-user-api",
   "version": "1.0.0",
-  "description": "Node.js Rest Apis with Express, Sequelize & MySQL",
+  "description": "Random User CRUD API with SQL Support",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "node -w server.js"
   },
   "keywords": [
     "nodejs",
@@ -14,7 +15,7 @@
     "sequelize",
     "mysql"
   ],
-  "author": "bezkoder",
+  "author": "gems2000",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",

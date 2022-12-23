@@ -1,6 +1,16 @@
+const Credentials = require('./credentials.model')
+const Location = require('./location.model')
+
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define(
     "user", {
+      user_id: {
+        type: Sequelize.BIGINT,
+        unique: true,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       title: {
         type: Sequelize.STRING
       },
@@ -19,13 +29,44 @@ module.exports = (sequelize, Sequelize) => {
       date_of_birth: {
         type: Sequelize.DATE
       },
-      mobile: {
+      phone: {
+        type: Sequelize.STRING(13),
+        allowNull: true,
+        defaultValue: null,
+      },
+      nationality: {
         type: Sequelize.STRING
+      },
+      pic_large: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+      },
+      pic_medium: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
+      },
+      pic_thumbnail: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
+      },
+      location_id: {
+        type: Sequelize.INTEGER,
+        foreignKey: true,
+        references: {
+          model: "location",
+          key: "id"
+        }
       }
     });
 
   User.associate = function (models) {
-    // associations can be defined here
+    User.hasOne(models.Location, {
+      foreignKey: "location_id",
+      targetKey: "id"
+    });
   };
 
   return User;

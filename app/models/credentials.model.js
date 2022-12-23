@@ -1,32 +1,32 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define(
-    "user", {
-      title: {
+  const Credentials = sequelize.define(
+    "credentials", {
+      uuid: {
         type: Sequelize.STRING
       },
-      first_name: {
+      username: {
         type: Sequelize.STRING
       },
-      last_name: {
-        type: Sequelize.BOOLEAN
-      },
-      gender: {
+      password: {
         type: Sequelize.STRING
       },
-      email: {
+      md5: {
         type: Sequelize.STRING
       },
-      date_of_birth: {
-        type: Sequelize.DATE
+      base64: {
+        type: Sequelize.STRING
       },
-      mobile: {
+      sha1: {
+        type: Sequelize.STRING
+      },
+      sha256: {
         type: Sequelize.STRING
       }
     });
 
-  User.associate = function (models) {
+  Credentials.associate = function (models) {
     // associations can be defined here
   };
 
-  return User;
+  return Credentials;
 };

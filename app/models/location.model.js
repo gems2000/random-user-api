@@ -16,14 +16,8 @@ module.exports = (sequelize, Sequelize) => {
       country: {
         type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING
-      },
-      date_of_birth: {
-        type: Sequelize.DATE
-      },
-      mobile: {
-        type: Sequelize.STRING
+      postcode: {
+        type: Sequelize.BIGINT
       }
     });
 
