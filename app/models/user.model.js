@@ -53,7 +53,7 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: null,
       },
       location_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         foreignKey: true,
         references: {
           model: "location",
@@ -61,26 +61,14 @@ module.exports = (sequelize, Sequelize) => {
         }
       },
       cred_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         foreignKey: true,
         references: {
-          model: "location",
+          model: "credentials",
           key: "id"
         }
       }
     });
-
-  User.associate = function (models) {
-    User.hasOne(Location, {
-      foreignKey: "location_id",
-      targetKey: "id"
-    });
-
-    User.hasOne(Credentials, {
-      foreignKey: "cred_key",
-      targetKey: "id"
-    })
-  };
 
   return User;
 };
