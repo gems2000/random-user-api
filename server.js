@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const db = require("./app/models");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: process.env.BASE_URL || "http://localhost:8081"
 };
 
 app.use(cors(corsOptions));
@@ -32,7 +33,10 @@ db.sequelize.sync()
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "" });
+  res.status(200).send({ 
+    message: "Server Working Fine!",
+    status: 200
+  });
 });
 
 require("./app/routes/user.routes")(app);
