@@ -29,15 +29,17 @@ module.exports = {
         sha256: {
           type: Sequelize.STRING
         },
-        created_at: {
+        createdAt: {
+          field: 'created_at',
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.fn('NOW')
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
-        updated_at: {
+        updatedAt: {
+          field: 'updated_at',
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.fn('NOW')
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         }
       }
     )

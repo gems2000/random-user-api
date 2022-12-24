@@ -4,7 +4,6 @@ module.exports = (sequelize, Sequelize) => {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        primaryKey: true,
         allowNull: false,
       },
       username: {
@@ -25,21 +24,19 @@ module.exports = (sequelize, Sequelize) => {
       sha256: {
         type: Sequelize.STRING
       },
-      created_at: {
+      createdAt: {
+        field: 'created_at',
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      updated_at: {
+      updatedAt: {
+        field: 'updated_at',
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn('NOW')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       }
     });
-
-  Credentials.associate = function (models) {
-    // associations can be defined here
-  };
 
   return Credentials;
 };

@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       last_name: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       gender: {
         type: Sequelize.STRING
@@ -55,6 +55,7 @@ module.exports = (sequelize, Sequelize) => {
       location_id: {
         type: Sequelize.BIGINT,
         foreignKey: true,
+        allowNull: true,
         references: {
           model: "location",
           key: "id"
@@ -68,6 +69,10 @@ module.exports = (sequelize, Sequelize) => {
           key: "id"
         }
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: false
     });
 
   return User;

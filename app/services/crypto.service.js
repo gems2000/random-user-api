@@ -1,7 +1,7 @@
 var md5 = require('md5');
 var sha1 = require('js-sha1');
 var sha256 = require('js-sha256');
-var base64js = require('base64-js')
+const { v4: uuidv4 } = require('uuid');
 
 
 const cryptoService = () => {
@@ -21,15 +21,21 @@ const cryptoService = () => {
     };
 
     const getBase64 = (password) => {
-        const b64hash = base64js.fromByteArray(password)
+        const b64hash = btoa(password)
         return b64hash;
+    }
+
+    const getUUID = () => {
+        const id = uuidv4();
+        return id;
     }
 
     return {
         getMD5Hash,
         getSHA1Hash,
         getSHA256Hash,
-        getBase64
+        getBase64,
+        getUUID
     }
 }
 

@@ -3,7 +3,6 @@ module.exports = (sequelize, Sequelize) => {
     "location", {
       id: {
         type: Sequelize.BIGINT,
-        unique: true,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
@@ -35,12 +34,12 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING(7),
         allowNull: true,
         defaultValue: null,
-      }
-    });
-
-  Location.associate = function (models) {
-    // associations can be defined here
-  };
+      },
+      
+    },{
+      freezeTableName: true,
+      timestamps: false
+  });
 
   return Location;
 };

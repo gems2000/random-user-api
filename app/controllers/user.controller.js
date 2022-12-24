@@ -38,7 +38,7 @@ exports.create = async (req, res) => {
     last_name: req.body.name.last,
     gender: req.body.gender,
     email: req.body.email,
-    date_of_birth: req.body.dob,
+    date_of_birth: req.body.dob.date,
     phone: req.body.phone,
     nationality: req.body.nationality,
     pic_large: req.body.profile_picture,
@@ -47,26 +47,28 @@ exports.create = async (req, res) => {
   };
 
   const location = {
-    street_number: req.body.location.street.number ? null : '',
-    street_name: req.body.location.street.name ? null : '',
-    city: req.body.location.city ? null : '',
-    state: req.body.location.state ? null : '',
-    postcode: req.body.location.postcode ? null : '',
+    street_number: req.body.location.street.number,
+    street_name: req.body.location.street.name,
+    city: req.body.location.city,
+    state: req.body.location.state,
+    postcode: req.body.location.postcode,
     country: req.body.location.country
   }
 
+  const cred_id = cryptoService().getUUID()
   const md5 = cryptoService().getMD5Hash(req.body.login.password)
   const sha1 = cryptoService().getSHA1Hash(req.body.login.password)
   const sha256 = cryptoService().getSHA256Hash(req.body.login.password)
   const base64 = cryptoService().getBase64(req.body.login.password)
 
   const credentials = {
+    id: cred_id,
     username: req.body.login.username,
     password: req.body.login.password,
     md5: md5,
     base64: base64,
     sha1: sha1,
-    sha256: sha256
+    sha256: sha256,
   }
 
   try {
@@ -76,37 +78,38 @@ exports.create = async (req, res) => {
     await Credentials.create(credentials)
       .then(data => {
         user.cred_id = data.id;
-        return user.save();
+        console.log('Creds Created with ID =>', data.id);
+        // return user.save();
       })
 
-    console.log('Creating Location')
-    console.log(location)
-    // Create Location and Return ID
-    await Location.create(location)
-      .then(data => {
-        user.location_id = data.id;
-        return user.save();
-      })
+      console.log('Creating Location')
+      console.log(location)
+      // Create Location and Return ID
+      await Location.create(location)
+        .then(data => {
+          user.location_id = data.id;
+          // return user.save();
+          console.log('Location created with data =>', data.id)
+        })    
 
     console.log('Creating Users')
     console.log(user)
 
-    const userID = '';
+    // const userID = '';
     // Save User in the database
     await User.create(user)
       .then(data => {
-        userID = data.id;
-        console.log('User Created with ID :: ', data.id);
+        // userID = data.id;
+        console.log('User Created with ID =>', data.user_id);
       })
 
     res.status(200).send({
-      message: 'User Created Successfully',
-      userId: userID
+      message: 'User Created Successfully'
     })
   } catch (err) {
     console.log(err);
     res.status(500).send({
-      message: err.message || "Some error occurred while creating the User."
+      message: "Internal Server Error"
     });
   }
 };

@@ -7,7 +7,6 @@ module.exports = {
       'location', {
         id: {
           type: Sequelize.BIGINT,
-          unique: true,
           primaryKey: true,
           autoIncrement: true,
           allowNull: false,
@@ -40,7 +39,10 @@ module.exports = {
           allowNull: true,
           defaultValue: null,
         }
-      }
+      },
+      {
+        timestamps: false
+    }
     )
   },
 

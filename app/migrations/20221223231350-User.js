@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.createTable(
-      'users', {
+      'user', {
         user_id: {
           type: Sequelize.BIGINT,
           unique: true,
@@ -19,7 +19,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         last_name: {
-          type: Sequelize.BOOLEAN
+          type: Sequelize.STRING
         },
         gender: {
           type: Sequelize.STRING
@@ -56,6 +56,7 @@ module.exports = {
         location_id: {
           type: Sequelize.BIGINT,
           foreignKey: true,
+          allowNull: true,
           references: {
             model: "location",
             key: "id"
