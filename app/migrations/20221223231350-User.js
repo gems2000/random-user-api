@@ -55,20 +55,20 @@ module.exports = {
         },
         location_id: {
           type: Sequelize.BIGINT,
-          foreignKey: true,
+          // foreignKey: true,
           allowNull: true,
-          references: {
-            model: "location",
-            key: "id"
-          }
+          // references: {
+          //   model: "location",
+          //   key: "id"
+          // }
         },
         cred_id: {
           type: Sequelize.UUID,
-          foreignKey: true,
-          references: {
-            model: "credentials",
-            key: "id"
-          }
+          // foreignKey: true,
+          // references: {
+          //   model: "credentials",
+          //   key: "id"
+          // }
         }
       }
     )

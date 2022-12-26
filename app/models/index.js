@@ -2,8 +2,13 @@ const config = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.HOST,
+  host: config.host,
   dialect: config.dialect,
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
+    },
+  },
   define: {
     timestamps: false
   },
